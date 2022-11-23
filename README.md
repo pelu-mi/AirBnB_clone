@@ -6,6 +6,9 @@
 
 ### Project Description:
 
+This project is the first step to creating a clone of the [AirBnB Website](https://www.airbnb.com/).
+
+To start, we would be creating a console which will enable us interact with the project by using some commands.
 
 ---
 
@@ -14,14 +17,14 @@
 
 To start it in interactive mode, simply run
 
-'''
+```
 $ ./console.py
-'''
+```
 
 
 To use it, type the desired command after the '(hbnb)' prompt
 
-'''
+```
 $ ./console.py
 (hbnb) help
 
@@ -33,11 +36,11 @@ EOF  help  quit
 (hbnb) 
 (hbnb) quit
 $
-'''
+```
 
 But it also works in non-interactive mode
 
-'''
+```
 $ echo "help" | ./console.py
 (hbnb)
 
@@ -57,4 +60,4 @@ Documented commands (type help <topic>):
 EOF  help  quit
 (hbnb) 
 $
-'''
+```
