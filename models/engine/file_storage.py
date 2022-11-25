@@ -47,6 +47,30 @@ class FileStorage:
             obj_dicts = {k: v.to_dict() for k, v in self.__objects.items()}
             json.dump(obj_dicts, f)
 
+    def classes(self):
+        """ Return a dict containing classes and their constructors
+        """
+        from models.base_model import BaseModel
+        from models.user import User
+        from models.state import State
+        from models.city import City
+        from models.amenity import Amenity
+        from models.place import Place
+        from models.review import Review
+
+
+        classes = {
+                "BaseModel": BaseModel,
+                "User": User,
+                "State": State,
+                "City": City,
+                "Amenity": Amenity,
+                "Place": Place,
+                "Review": Review
+        }
+        return classes
+
+
     def reload(self):
         """
         Deserializes the JSON file to __objects only if the JSON file
@@ -57,19 +81,11 @@ class FileStorage:
         FILE -> <class 'str'> -> JSON load -> <class 'dict'>
         -> <class 'BaseModel'>
         """
-        # Import statement appears in function to avoid circular import
-        from models.base_model import BaseModel
-
-
-        # Use 'classes' to access the constructor for the class
-        classes = {
-                "BaseModel": BaseModel
-        }
         # If file does not exist, do nothing
         if not os.path.isfile(self.__file_path):
             return
         # Overwrite '__objects' with content of '__file_path'
         with open(self.__file_path, 'r', encoding='utf-8') as f:
             obj_dict = json.load(f)
-            d = {k: classes[v['__class__']](**v) for k, v in obj_dict.items()}
+            d = {k: self.classes()[v['__class__']](**v) for k, v in obj_dict.items()}
             self.__objects = d
