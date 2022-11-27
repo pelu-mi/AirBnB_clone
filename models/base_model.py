@@ -49,15 +49,17 @@ class BaseModel:
         """
         Update the updated_at instance attribute
         """
-        storage.save()
+        
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         """
         Return dictionary representation of the instance
         """
         dictionary = self.__dict__.copy()
-        dictionary['__class__'] = self.__class__.__name__
-        dictionary['created_at'] = self.created_at.isoformat()
-        dictionary['updated_at'] = self.updated_at.isoformat()
-        return dictionary
+        dictionary["__class__"] = type(self).__name__
+        dictionary["created_at"] = dictionary["created_at"].isoformat()
+        dictionary["updated_at"] = dictionary["updated"].isoformat()
+        
+        return dictionary 
