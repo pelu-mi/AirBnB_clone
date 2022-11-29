@@ -114,37 +114,31 @@ class HBNBCommand(cmd.Cmd):
         ----------------------------------------------------------------
         Ex: $ update BaseModel 1234-1234-1234 email "aibnb@mail.com"
         """
-        if line == "" or line is None:
+        args = tuple(shlex.split(line))
+        objects = storage.all()
+        if not args:
             print("** class name missing **")
-        else:
-            args = shlex.split(line) # Use shlex to split line
-            if args[0] not in storage.classes():
-                print("** class doesn't exist **")
-            elif len(args) < 2:
-                print("** instance id missing **")
-            else:
-                key = args[0] + '.' + args[1]
-                if key not in storage.all():
-                    print("** no instance found **")
-                else:
-                    if len(args) < 3:
-                        print("** attribute name missing **")
-                    else:
-                        if not hasattr(storage.all()[key], args[2]):
-                            print("** value missing **")
-                        else:
-                            # Consider another method of casting later
-                            # \if this does not work
-                            # Cast the value to the original type
-                            if re.search('^[+|-]?\d+', args[3]):
-                                value = int(args[3])
-                            elif re.search('^[+|-]?\d*\.\d*$', args[3]):
-                                value = float(args[3])
-                            else:
-                                value = args[3]
-                            # Update the attribute with the new value
-                            setattr(storage.all()[key], args[2], value)
-                            storage.all()[key].save()
+            return 0
+        elif args[0] not in storage.classes():
+            print("** class doesn't exist **")
+            return 0
+        elif len(args) < 2:
+            print("** instance id missing **")
+            return 0
+        elif len(args) < 3:
+            print("** attribute name missing **")
+            return 0
+        elif len(args) < 4:
+            print("** value missing **")
+            return 0
+
+        key = "{}.{}".format(args[0], args[1])
+        try:
+            objects[key].__dict__[args[2]] = args[3]
+            storage.save()
+        except Exception:
+            print("** no instance found **")
+            return
 
 
 if __name__ == '__main__':

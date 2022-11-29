@@ -78,13 +78,17 @@ if result is None or result == "":
     
 model_id = result
 
-result = exec_command(my_console, "update BaseModel {}".format(model_id))
+exec_command(my_console, "update BaseModel {} test_name \"test_value\"".format(model_id))
+
+result = exec_command(my_console, "show BaseModel {}".format(model_id))
 if result is None or result == "":
     print("FAIL: no output")
     
-search_str = "** attribute name missing **"
-if result != search_str:
-    print("FAIL: wrong message: \"{}\" instead of \"{}\"".format(result, search_str))
+if "[BaseModel]" not in result or model_id not in result:
+    print("FAIL: wrong output format: \"{}\"".format(result))
+    
+if "test_name" not in result or "test_value" not in result:
+    print("FAIL: new value not stored in the object: \"{}\"".format(result))
     
 print("OK", end="")
 
