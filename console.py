@@ -145,5 +145,3 @@ class HBNBCommand(cmd.Cmd):
                             # Update the attribute with the new value
                             setattr(storage.all()[key], args[2], value)
                             storage.all()[key].save()
-
-
