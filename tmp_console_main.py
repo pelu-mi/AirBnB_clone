@@ -58,7 +58,7 @@ class HBNBCommand(cmd.Cmd):
             args = line.split(' ')
             if args[0] not in storage.classes():
                 print("** class doesn't exist **")
-            elif len(args) < 2:
+            elif len(args < 2):
                 print("** instance id missing **")
             else:
                 key = args[0] + '.' + args[1]
@@ -79,7 +79,7 @@ class HBNBCommand(cmd.Cmd):
             args = line.split(' ')
             if args[0] not in storage.classes():
                 print("** class doesn't exist **")
-            elif len(args) < 2:
+            elif len(args < 2):
                 print("** instance id missing **")
             else:
                 key = args[0] + '.' + args[1]
@@ -120,7 +120,7 @@ class HBNBCommand(cmd.Cmd):
             args = shlex.split(line) # Use shlex to split line
             if args[0] not in storage.classes():
                 print("** class doesn't exist **")
-            elif len(args) < 2:
+            elif len(args < 2):
                 print("** instance id missing **")
             else:
                 key = args[0] + '.' + args[1]
@@ -147,3 +147,5 @@ class HBNBCommand(cmd.Cmd):
                             storage.all()[key].save()
 
 
+if __name__ == '__main__':
+    HBNBCommand().cmdloop()
