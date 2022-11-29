@@ -127,7 +127,7 @@ class HBNBCommand(cmd.Cmd):
                 if key not in storage.all():
                     print("** no instance found **")
                 else:
-                    if args[2] == "" or args[3] is None:
+                    if len(args) < 3:
                         print("** attribute name missing **")
                     else:
                         if not hasattr(storage.all()[key], args[2]):
@@ -145,3 +145,7 @@ class HBNBCommand(cmd.Cmd):
                             # Update the attribute with the new value
                             setattr(storage.all()[key], args[2], value)
                             storage.all()[key].save()
+
+
+if __name__ == '__main__':
+    HBNBCommand().cmdloop()
