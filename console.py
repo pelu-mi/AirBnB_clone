@@ -273,5 +273,6 @@ Function: Counts all the instances  of the class
                 count += 1
         print(count)
 
+# If run as main file, loop HBNBCommand
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
