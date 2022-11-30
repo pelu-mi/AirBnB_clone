@@ -58,7 +58,6 @@ class FileStorage:
         from models.place import Place
         from models.review import Review
 
-
         classes = {
                 "BaseModel": BaseModel,
                 "User": User,
@@ -70,14 +69,12 @@ class FileStorage:
         }
         return classes
 
-
     def reload(self):
         """
         Deserializes the JSON file to __objects only if the JSON file
-        (__file_path) exists. Otherwise, do nothing. 
-        If the file doesn’t exist, no exception should be raised
-
-        Flow of deserialization should be
+        (__file_path) exists. Otherwise, do nothing.
+        If the file doesn’t exist, no exception should be raised.
+        The Flow of deserialization should be
         FILE -> <class 'str'> -> JSON load -> <class 'dict'>
         -> <class 'BaseModel'>
         """
@@ -86,6 +83,6 @@ class FileStorage:
             return
         # Overwrite '__objects' with content of '__file_path'
         with open(self.__file_path, 'r', encoding='utf-8') as f:
-            obj_dict = json.load(f)
-            d = {k: self.classes()[v['__class__']](**v) for k, v in obj_dict.items()}
+            o = json.load(f)  # We use 'o' so the command can fit on one line
+            d = {k: self.classes()[v['__class__']](**v) for k, v in o.items()}
             self.__objects = d
