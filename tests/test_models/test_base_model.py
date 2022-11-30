@@ -3,6 +3,7 @@
 """
 
 
+import time
 import unittest
 from datetime import datetime
 from models import storage
@@ -41,6 +42,34 @@ class TestBaseModel(unittest.TestCase):
         """ Test inheritance from BaseModel
         """
         self.assertIsInstance(self.model, BaseModel)
+
+    def test_str(self):
+        """ Test string representation of Basemodel
+        """
+        self.assertIsInstance(str(self.model), str)
+
+    def test_to_dict(self):
+        """ Test to_dict method
+        """
+        self.model.name = "James"
+        self.model.phone = "+1 555 2345"
+        model_dict = self.model.to_dict()
+        self.assertEqual(model_dict["id"], self.model.id)
+        self.assertEqual(model_dict["created_at"], self.model.created_at.isoformat())
+        self.assertEqual(model_dict["updated_at"], self.model.updated_at.isoformat())
+        self.assertEqual(model_dict["__class__"], type(self.model).__name__)
+        self.assertEqual(model_dict["name"], self.model.name)
+        self.assertEqual(model_dict["phone"], self.model.phone)
+
+    def test_save(self):
+        """ Test Save method
+        """
+        model_2 = BaseModel()
+        time.sleep(0.3)
+        now = datetime.now()
+        model_2.save()
+        latency = model_2.updated_at - now
+        self.assertTrue(abs(latency.total_seconds()) < 0.01)
 
 
 # Run as main file if called
