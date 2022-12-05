@@ -20,7 +20,6 @@ class HBNBCommand(cmd.Cmd):
     def precmd(self, line):
         """Precmd override
         """
-        line = "User.create('id')"
         regex = re.search(r"^(\w*)\.(\w+)(?:\(([^)]*)\))$", line)
         if not regex:
             return line
@@ -43,15 +42,13 @@ class HBNBCommand(cmd.Cmd):
             if regex_dictionary:
                 # self.update_dict(classname, uid, match_dict.group(1))
                 return ""
-            # Organize all the values into a string
-            regex_values = re.search('^(?:"([^"]*)")?(?:, (.*))?$',
-                                     attributes)
-            if regex_values:
-                values = (regex_values.group(1) or "") + (
-                            regex_values.group(2) or "")
+            # Organize all the values into a string: regex_values as re_vals
+            re_vals = re.search('^(?:"([^"]*)")?(?:, (.*))?$', attributes)
+            if re_vals:
+                values = (re_vals.group(1) or "") + (re_vals.group(2) or "")
         # Recreate string to run as command
         command = command + " " + class_name + " " + user_id + " " + values
-        self.onecmd(command)
+        # self.onecmd(command)
         return command
 
     def emptyline(self):
@@ -194,6 +191,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             id_match = args[0] + '.'
             regex_class = [i for i in storage.all() if i.startswith(id_match)]
+            print(len(regex_class))
 
 
 if __name__ == '__main__':
