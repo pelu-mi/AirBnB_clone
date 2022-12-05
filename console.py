@@ -212,8 +212,12 @@ class HBNBCommand(cmd.Cmd):
             if key not in storage.all():
                 print("** no instance found **")
             else:
-                for key, value in obj_dict.items():
-                    self.do_update(user_id + ' ' + class_name + ' ' + key + ' ' + value)
+                attr_dict = storage.attributes()[class_name]
+                for attr, val in obj_dict.items():
+                    if attr in attr_dict:
+                        val = attr_dict[attr](val)
+                    setattr(storage.all()[key], attr, val)
+                storage.all()[key].save()
 
 
 if __name__ == '__main__':
