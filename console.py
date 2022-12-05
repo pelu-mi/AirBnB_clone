@@ -38,17 +38,20 @@ class HBNBCommand(cmd.Cmd):
         values = ""
         if command == "update" and attributes is not None:
             # Specially handle update with dictionary
-            regex_dictionary = re.search('^({.*})$', attr_or_dict)
+            regex_dictionary = re.search('^({.*})$', attributes)
             if regex_dictionary:
                 # self.update_dict(classname, uid, match_dict.group(1))
                 return ""
             # Organize all the values into a string: regex_values as re_vals
             re_vals = re.search('^(?:"([^"]*)")?(?:, (.*))?$', attributes)
             if re_vals:
-                values = (re_vals.group(1) or "") + (re_vals.group(2) or "")
+                # Using v instead of values for pycodestyle sake
+                v = (re_vals.group(1) or "") + " " + (re_vals.group(2) or "")
+                values = v
         # Recreate string to run as command
         command = command + " " + class_name + " " + user_id + " " + values
         # self.onecmd(command)
+        print(command)
         return command
 
     def emptyline(self):
