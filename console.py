@@ -20,32 +20,35 @@ class HBNBCommand(cmd.Cmd):
     def precmd(self, line):
         """Precmd override
         """
-        match = re.search(r"^(\w*)\.(\w+)(?:\(([^)]*)\))$", line)
-        if not match:
+        line = "User.create('id')"
+        regex = re.search(r"^(\w*)\.(\w+)(?:\(([^)]*)\))$", line)
+        if not regex:
             return line
-        classname = match.group(1)
-        method = match.group(2)
-        args = match.group(3)
-        match_uid_and_args = re.search('^"([^"]*)"(?:, (.*))?$', args)
-        if match_uid_and_args:
-            uid = match_uid_and_args.group(1)
-            attr_or_dict = match_uid_and_args.group(2)
+        class_name = regex.group(1)
+        command = regex.group(2)
+        args = regex.group(3)
+        # Check for the arguments in args
+        regex_args = re.search('^"([^"]*)"(?:, (.*))?$', args)
+        if not regex_args:
+            user_id = args
+            attributes = None
         else:
-            uid = args
-            attr_or_dict = False
-
-        attr_and_value = ""
-        if method == "update" and attr_or_dict:
-            match_dict = re.search('^({.*})$', attr_or_dict)
-            if match_dict:
-                self.update_dict(classname, uid, match_dict.group(1))
+            user_id = regex_args.group(1)
+            attributes = regex_args.group(2)
+        
+        values = ""
+        if command == "update" and attributes is not None:
+            # Specially handle update with dictionary
+            regex_dictionary = re.search('^({.*})$', attr_or_dict)
+            if regex_dictionary:
+                # self.update_dict(classname, uid, match_dict.group(1))
                 return ""
-            match_attr_and_value = re.search(
-                '^(?:"([^"]*)")?(?:, (.*))?$', attr_or_dict)
-            if match_attr_and_value:
-                attr_and_value = (match_attr_and_value.group(
-                    1) or "") + " " + (match_attr_and_value.group(2) or "")
-        command = method + " " + classname + " " + uid + " " + attr_and_value
+            # Organize all the values into a string
+            regex_values = re.search('^(?:"([^"]*)")?(?:, (.*))?$', attributes)
+            if regex_values:
+                values = (regex_values.group(1) or "") + (regex_values.group(2) or "")
+        # Recreate string to run as command
+        command = command + " " + class_name + " " + user_id + " " + values
         self.onecmd(command)
         return command
 
