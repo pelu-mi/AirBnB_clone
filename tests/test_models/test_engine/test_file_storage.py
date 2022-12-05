@@ -56,6 +56,7 @@ class TestFileStorage(unittest.TestCase):
         """ Test the reload method
         """
         self.storage.reload()
+        self.storage._FileStorage__objects = {}
         self.assertEqual(self.storage._FileStorage__objects, {})
 
     def test_save(self):
