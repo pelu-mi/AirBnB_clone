@@ -6,6 +6,7 @@ Module to define file storage engine
 
 import json
 import os
+from datetime import datetime
 
 
 class FileStorage:
@@ -94,8 +95,8 @@ class FileStorage:
             "BaseModel":
                      {
                          "id": str,
-                         "created_at": datetime.datetime,
-                         "updated_at": datetime.datetime
+                         "created_at": datetime,
+                         "updated_at": datetime
                      },
             "User":  {
                          "email": str,

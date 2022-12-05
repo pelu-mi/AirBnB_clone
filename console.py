@@ -41,7 +41,7 @@ class HBNBCommand(cmd.Cmd):
             # Specially handle update with dictionary
             regex_dictionary = re.search('^({.*})$', attributes)
             if regex_dictionary:
-                self.update_dictionary(class_name, user_id, match_dict.group(1))
+                self.update_dictionary(class_name, user_id, regex_dictionary.group(1))
                 return ""
             # Organize all the values into a string: regex_values as re_vals
             re_vals = re.search('^(?:"([^"]*)")?(?:, (.*))?$', attributes)
