@@ -20,10 +20,9 @@ class TestFileStorage(unittest.TestCase):
     def tearDown(self):
         """ Run after every single test
         """
-        try:
-            os.remove("file.json")
-        except Exception:
-            pass
+        self.storage._FileStorage__objects = {}
+        if os.path.isfile(self.storage._FileStorage__file_path):
+            os.remove(self.storage._FileStorage__file_path)
 
     def test_attr(self):
         """ Test Class attributes
@@ -53,11 +52,15 @@ class TestFileStorage(unittest.TestCase):
         objs = self.storage.all()
         self.assertIsNotNone(objs[key])
 
-    def test_reload_and_save(self):
-        """ Test the reload and save methods
+    def test_reload(self):
+        """ Test the reload method
         """
         self.storage.reload()
-        # self.assertEqual(self.storage._FileStorage__objects, {})
+        self.assertEqual(self.storage._FileStorage__objects, {})
+
+    def test_save(self):
+        """ Test the save method
+        """
         model = BaseModel()
         self.storage.new(model)
         key = model.__class__.__name__ + '.' + str(model.id)
