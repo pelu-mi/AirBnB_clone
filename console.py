@@ -18,7 +18,12 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
 
     # Default methods
-    def precmd(self, line):
+    def default(self, line):
+        """Default
+        """
+        self.custom_precmd(line)
+
+    def custom_precmd(self, line):
         """Precmd override
         """
         regex = re.search(r"^(\w*)\.(\w+)(?:\(([^)]*)\))$", line)
@@ -51,6 +56,7 @@ class HBNBCommand(cmd.Cmd):
                 values = v
         # Recreate string to run as command
         command = command + " " + class_name + " " + user_id + " " + values
+        self.onecmd(command)
         return command
 
     def emptyline(self):
@@ -157,26 +163,27 @@ class HBNBCommand(cmd.Cmd):
         objects = storage.all()
         if not args:
             print("** class name missing **")
-            return 0
+            return
         elif args[0] not in storage.classes():
             print("** class doesn't exist **")
-            return 0
+            return
         elif len(args) < 2:
             print("** instance id missing **")
-            return 0
+            return
+        elif "{}.{}".format(args[0], args[1]) not in storage.all():
+            print("** no instance found **")
         elif len(args) < 3:
             print("** attribute name missing **")
-            return 0
+            return
         elif len(args) < 4:
             print("** value missing **")
-            return 0
+            return
 
         key = "{}.{}".format(args[0], args[1])
         try:
             objects[key].__dict__[args[2]] = args[3]
             storage.save()
         except Exception:
-            print("** no instance found **")
             return
 
     def do_count(self, line):
