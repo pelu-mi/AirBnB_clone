@@ -379,6 +379,11 @@ EOF  all  count  create  destroy  help  quit  show  update
         msg = f.getvalue()[:-1]
         self.assertEqual(msg, "** class doesn't exist **")
 
+    def test_count_all(self):
+        """Tests count for all classes."""
+        for classname in self.classes():
+            self.help_test_count_advanced(classname)
+
     def help_test_count_advanced(self, classname):
         """Helps test .count() command."""
         for i in range(20):
