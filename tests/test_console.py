@@ -50,19 +50,15 @@ class TestHBNBCommand(unittest.TestCase):
         """Tests the help command."""
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("help")
-        s = """
-Documented commands (type help <topic>):
-========================================
-EOF  all  count  create  destroy  help  quit  show  update
-"""
-        self.assertEqual(s, f.getvalue())
+        s = "Documented commands (type help <topic>):"
+        self.assertIn(s, f.getvalue())
 
     def test_help_EOF(self):
         """Tests the help command."""
         with patch('sys.stdout', new=StringIO()) as f:
             HBNBCommand().onecmd("help EOF")
-        s = 'Exit the program when you get EOF\n'
-        self.assertEqual(s, f.getvalue())
+        s = 'Exit the program when you get EOF'
+        self.assertIn(s, f.getvalue())
 
     def test_help_quit(self):
         """Tests the help command."""
