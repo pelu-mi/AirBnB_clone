@@ -35,7 +35,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             user_id = regex_args.group(1)
             attributes = regex_args.group(2)
-        
+
         values = ""
         if command == "update" and attributes is not None:
             # Specially handle update with dictionary
@@ -44,9 +44,11 @@ class HBNBCommand(cmd.Cmd):
                 # self.update_dict(classname, uid, match_dict.group(1))
                 return ""
             # Organize all the values into a string
-            regex_values = re.search('^(?:"([^"]*)")?(?:, (.*))?$', attributes)
+            regex_values = re.search('^(?:"([^"]*)")?(?:, (.*))?$',
+                                     attributes)
             if regex_values:
-                values = (regex_values.group(1) or "") + (regex_values.group(2) or "")
+                values = (regex_values.group(1) or "") + (
+                            regex_values.group(2) or "")
         # Recreate string to run as command
         command = command + " " + class_name + " " + user_id + " " + values
         self.onecmd(command)
@@ -177,6 +179,21 @@ class HBNBCommand(cmd.Cmd):
         except Exception:
             print("** no instance found **")
             return
+
+    def do_count(self, line):
+        """Count the number of instances of a class
+        -------------------------------------------
+        Usage: <class name>.count()
+        Example: User.count()
+        """
+        args = line.split(' ')
+        if not args[0]:
+            print("** class name missing **")
+        elif args[0] not in storage.classes():
+            print("** class doesn't exist **")
+        else:
+            id_match = args[0] + '.'
+            regex_class = [i for i in storage.all() if i.startswith(id_match)]
 
 
 if __name__ == '__main__':
