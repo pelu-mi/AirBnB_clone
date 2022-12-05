@@ -6,6 +6,7 @@
 import cmd
 import re
 import sys
+import json
 import shlex
 from models import storage
 from models.base_model import BaseModel
@@ -40,7 +41,7 @@ class HBNBCommand(cmd.Cmd):
             # Specially handle update with dictionary
             regex_dictionary = re.search('^({.*})$', attributes)
             if regex_dictionary:
-                # self.update_dict(classname, uid, match_dict.group(1))
+                self.update_dictionary(class_name, user_id, match_dict.group(1))
                 return ""
             # Organize all the values into a string: regex_values as re_vals
             re_vals = re.search('^(?:"([^"]*)")?(?:, (.*))?$', attributes)
@@ -50,8 +51,6 @@ class HBNBCommand(cmd.Cmd):
                 values = v
         # Recreate string to run as command
         command = command + " " + class_name + " " + user_id + " " + values
-        # self.onecmd(command)
-        print(command)
         return command
 
     def emptyline(self):
@@ -195,6 +194,26 @@ class HBNBCommand(cmd.Cmd):
             id_match = args[0] + '.'
             regex_class = [i for i in storage.all() if i.startswith(id_match)]
             print(len(regex_class))
+
+    # Method to run if dictionary is passed into update method
+    def update_dictionary(self, class_name, user_id, dictionary):
+        """ Run this command if dictionary is passed into update method
+        """
+        temp = dictionary.replace("'", '"')
+        obj_dict = json.loads(temp)
+        if not class_name:
+            print("** class name missing **")
+        elif class_name not in storage.classes():
+            print("** class doesn't exist **")
+        elif user_id is None:
+            print("** instance id missing **")
+        else:
+            key = class_name + '.' + user_id
+            if key not in storage.all():
+                print("** no instance found **")
+            else:
+                for key, value in obj_dict.items():
+                    self.do_update(user_id + ' ' + class_name + ' ' + key + ' ' + value)
 
 
 if __name__ == '__main__':
