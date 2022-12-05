@@ -62,16 +62,19 @@ class HBNBCommand(cmd.Cmd):
         return command
 
     def emptyline(self):
-        """If line is empty, do nothing"""
+        """If line is empty, do nothing
+        """
         return False
 
     def do_EOF(self, line):
-        """Exit the program when you get EOF"""
+        """Exit the prgram when you get EOF
+        """
         return True
 
     # hbnb Commands
     def do_quit(self, line):
-        """Quit command to exit the program"""
+        """Quit command to exit the program
+        """
         return True
 
     def do_create(self, line):

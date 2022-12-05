@@ -58,62 +58,6 @@ EOF  all  count  create  destroy  help  quit  show  update
 """
         self.assertEqual(s, f.getvalue())
 
-    def test_help_EOF(self):
-        """Tests the help command."""
-        with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd("help EOF")
-        s = 'Exit the program when you get EOF\n'
-        self.assertEqual(s, f.getvalue())
-
-    def test_help_quit(self):
-        """Tests the help command."""
-        with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd("help quit")
-        s = 'Quit command to exit the program'
-        self.assertIn(s, f.getvalue())
-
-    def test_help_create(self):
-        """Tests the help command."""
-        with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd("help create")
-        s = 'Create an instance of a class, save it to JSON file'
-        self.assertIn(s, f.getvalue())
-
-    def test_help_show(self):
-        """Tests the help command."""
-        with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd("help show")
-        s = 'Prints the string representation of an instance based on the'
-        self.assertIn(s, f.getvalue())
-
-    def test_help_destroy(self):
-        """Tests the help command."""
-        with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd("help destroy")
-        s = 'Delete an instance based on the class name and id'
-        self.assertIn(s, f.getvalue())
-
-    def test_help_all(self):
-        """Tests the help command."""
-        with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd("help all")
-        s = "Print all string representation of all instances based on"
-        self.assertIn(s, f.getvalue())
-
-    def test_help_count(self):
-        """Tests the help command."""
-        with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd("help count")
-        s = 'Count the number of instances of a class'
-        self.assertIn(s, f.getvalue())
-
-    def test_help_update(self):
-        """Tests the help command."""
-        with patch('sys.stdout', new=StringIO()) as f:
-            HBNBCommand().onecmd("help update")
-        s = 'Update an instance based on the class name and id by adding'
-        self.assertIn(s, f.getvalue())
-
     def test_do_quit(self):
         """Tests quit commmand."""
         with patch('sys.stdout', new=StringIO()) as f:
